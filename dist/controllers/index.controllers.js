@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.indexControllers = void 0;
 //IMPORTANDO LA CONEXION DE LA BASE DE DATOS
 const app_1 = require("../app");
-//COMPROBACION DE CONEXION A LA BASE DE DATOS
+//COMPROBACION DE CONEXION A LA BASE DE DATO
 const checkConnection = async (res) => {
     const checkConnection = await app_1.connectionSQL.check();
     if (!checkConnection) {

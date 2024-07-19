@@ -6,7 +6,7 @@ import { connectionSQL } from "../app";
 import { client, antropometria, bioimpedancia, antro_bio } from "../interface/interfaces";
 
 
-//COMPROBACION DE CONEXION A LA BASE DE DATOS
+//COMPROBACION DE CONEXION A LA BASE DE DATO
 const checkConnection = async(res: Response)=>{
     const checkConnection = await connectionSQL.check()
     if(!checkConnection){
