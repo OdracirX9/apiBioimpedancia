@@ -18,7 +18,7 @@ export const indexControllers = {
 
     getClients: async(req: Request, res: Response)=>{
         try {
-            const [result] = await connectionSQL.pool.query('SELECT * FROM info_paciente ORDER BY create_at DESC')
+            const [result] = await connectionSQL.pool.query('SELECT * FROM info_paciente ORDER BY created_at DESC')
             res.json(result)
         } catch (error) {
             res.json(error)
@@ -39,7 +39,7 @@ export const indexControllers = {
         try {
             //const [result]:any = await connectionSQL.pool.query('SELECT * FROM info_paciente WHERE id_paciente = ? LIMIT 1', [params])
 
-            const [count]:any = await connectionSQL.pool.query('SELECT create_at FROM _antropometria WHERE id_paciente = ? ORDER BY create_at DESC',[params])
+            const [count]:any = await connectionSQL.pool.query('SELECT created_at FROM _antropometria WHERE id_paciente = ? ORDER BY created_at DESC',[params])
 
             if(count.length === 0)  {
                 return res.json({
@@ -58,10 +58,10 @@ export const indexControllers = {
                 year = queryFecha.getUTCFullYear()
                 month = queryFecha.getUTCMonth() + 1
                 day = queryFecha.getUTCDate()
-                queryPaciente = `SELECT * FROM _antropometria WHERE id_paciente = ? AND YEAR(create_at) = ? AND MONTH(create_at) = ? AND DAY(create_at) = ? LIMIT 1`
+                queryPaciente = `SELECT * FROM _antropometria WHERE id_paciente = ? AND YEAR(created_at) = ? AND MONTH(created_at) = ? AND DAY(created_at) = ? LIMIT 1`
                 arrayQueryPaciente = [params,year,month,day]
             } else {
-                queryPaciente = 'SELECT * FROM _antropometria WHERE id_paciente = ? ORDER BY create_at DESC LIMIT 1'
+                queryPaciente = 'SELECT * FROM _antropometria WHERE id_paciente = ? ORDER BY created_at DESC LIMIT 1'
                 arrayQueryPaciente = [params]
             }
                 
@@ -80,12 +80,12 @@ export const indexControllers = {
             }
 
             if(!queryFecha){
-                year = `${result2[0].create_at.getUTCFullYear()}`
-                month = `${result2[0].create_at.getUTCMonth() + 1}`
-                day = `${result2[0].create_at.getUTCDate()}`
+                year = `${result2[0].created_at.getUTCFullYear()}`
+                month = `${result2[0].created_at.getUTCMonth() + 1}`
+                day = `${result2[0].created_at.getUTCDate()}`
             }
             
-            const [result3]:any = await connectionSQL.pool.query('SELECT * FROM _bioimpedanciometria WHERE id_paciente = ? AND YEAR(create_at) = ? AND MONTH(create_at) = ? AND DAY(create_at) = ? LIMIT 1', [params, year,month,day])
+            const [result3]:any = await connectionSQL.pool.query('SELECT * FROM _bioimpedanciometria WHERE id_paciente = ? AND YEAR(created_at) = ? AND MONTH(created_at) = ? AND DAY(created_at) = ? LIMIT 1', [params, year,month,day])
 
             res.json({
                 //"paciente":result[0],
@@ -116,7 +116,7 @@ export const indexControllers = {
         try {
             //const [result]:any = await connectionSQL.pool.query('SELECT * FROM info_paciente WHERE id_paciente = ? LIMIT 1', [params])
 
-            const [count]:any = await connectionSQL.pool.query('SELECT create_at FROM _examenes_laboratorios WHERE id_paciente = ? ORDER BY create_at DESC',[params])
+            const [count]:any = await connectionSQL.pool.query('SELECT created_at FROM _examenes_laboratorios WHERE id_paciente = ? ORDER BY created_at DESC',[params])
 
             if(count.length === 0)  {
                 return res.json({
@@ -133,10 +133,10 @@ export const indexControllers = {
                 year = queryFecha.getUTCFullYear()
                 month = queryFecha.getUTCMonth() + 1
                 day = queryFecha.getUTCDate()
-                queryPaciente = `SELECT * FROM _examenes_laboratorios WHERE id_paciente = ? AND YEAR(create_at) = ? AND MONTH(create_at) = ? AND DAY(create_at) = ? LIMIT 1`
+                queryPaciente = `SELECT * FROM _examenes_laboratorios WHERE id_paciente = ? AND YEAR(created_at) = ? AND MONTH(created_at) = ? AND DAY(created_at) = ? LIMIT 1`
                 arrayQueryPaciente = [params,year,month,day]
             } else {
-                queryPaciente = 'SELECT * FROM _examenes_laboratorios WHERE id_paciente = ? ORDER BY create_at DESC LIMIT 1'
+                queryPaciente = 'SELECT * FROM _examenes_laboratorios WHERE id_paciente = ? ORDER BY created_at DESC LIMIT 1'
                 arrayQueryPaciente = [params]
             }
                 
@@ -295,7 +295,7 @@ export const indexControllers = {
         const newClient: client = req.body
    
         try {
-            const result:any = await connectionSQL.pool.query('INSERT INTO info_paciente (nombre,apellido,cedula,sexo,celular,fecha_nacimiento,ocupacion,direccion,estado_civil) VALUES (?,?,?,?,?,?,?,?,?)',[newClient.nombre,newClient.apellido,newClient.cedula,newClient.sexo,JSON.stringify(newClient.celular),newClient.fecha_nacimiento,newClient.ocupacion,newClient.direccion,newClient.estado_civil])
+            const result:any = await connectionSQL.pool.query('INSERT INTO info_paciente (uuid,nombre,apellido,cedula,sexo,celular,fecha_nacimiento,ocupacion,direccion,estado_civil) VALUES (UUID(),?,?,?,?,?,?,?,?,?)',[newClient.nombre,newClient.apellido,newClient.cedula,newClient.sexo,JSON.stringify(newClient.celular),newClient.fecha_nacimiento,newClient.ocupacion,newClient.direccion,newClient.estado_civil])
 
             res.json(result[0])
 
@@ -314,11 +314,11 @@ export const indexControllers = {
         try {
             
             //CREAR ANTROPOMETRIA
-            const result: any = await connectionSQL.pool.query('INSERT INTO _antropometria (id_paciente, peso, talla, cms_perimetro_cintura, cms_perimetro_cadera, cms_perimetro_cuello, contorno_muneca, create_at) VALUES (?,?,?,?,?,?,?,?)',[params, a.peso, a.talla, a.cms_perimetro_cintura, a.cms_perimetro_cadera, a.cms_perimetro_cuello, a.contorno_muneca, a.create_at])
+            const result: any = await connectionSQL.pool.query('INSERT INTO _antropometria (uuid,id_paciente, peso, talla,cintura,cadera,cuello,muneca, created_at) VALUES (UUID(),?,?,?,?,?,?,?,?)',[params, a.peso, a.talla, a.cintura, a.cadera, a.cuello, a.muneca, a.created_at])
 
 
             //CREAR BIOIMPEDANCIA
-            const result2: any = await connectionSQL.pool.query('INSERT INTO _bioimpedanciometria (id_paciente, grasa_corporal, masa_muscular, kca_basal, edad_corporal, grasa_visceral, create_at) VALUES (?,?,?,?,?,?,?)',[params, b.grasa_corporal, b.masa_muscular, b.kca_basal, b.edad_corporal, b.grasa_visceral, b.create_at])
+            const result2: any = await connectionSQL.pool.query('INSERT INTO _bioimpedanciometria (uuid,id_paciente, grasa_corporal, masa_muscular, kca_basal, edad_corporal, grasa_visceral, created_at) VALUES (UUID(),?,?,?,?,?,?,?)',[params, b.grasa_corporal, b.masa_muscular, b.kca_basal, b.edad_corporal, b.grasa_visceral, b.created_at])
 
             console.log({
                 "antropometria":result[0],
@@ -352,7 +352,7 @@ export const indexControllers = {
             placeholder = `${placeholder},?`
         } 
 
-        const query = `INSERT INTO _examenes_laboratorios (id_paciente, ${keys}) VALUES (?,${placeholder})`
+        const query = `INSERT INTO _examenes_laboratorios (uuid,id_paciente, ${keys}) VALUES (UUID(),?,${placeholder})`
 
         try {
             console.log(values)
@@ -378,7 +378,7 @@ export const indexControllers = {
             placeholder = `${placeholder},?`
         } 
 
-        const query = `INSERT INTO _dosis (id_paciente, ${keys}) VALUES (?,${placeholder})`
+        const query = `INSERT INTO _dosis (uuid,id_paciente, ${keys}) VALUES (UUID(),?,${placeholder})`
 
         try {
             const result: any = await connectionSQL.pool.query(query,values)
@@ -392,7 +392,7 @@ export const indexControllers = {
         const params = req.params.id
         const newAntecedentes = req.body
 
-        const query = `INSERT INTO _antecedentes (id_paciente, info_adicional) VALUES (?,?)`
+        const query = `INSERT INTO _antecedentes (uuid,id_paciente, info_adicional) VALUES (UUID(),?,?)`
 
         try {
             const result: any = await connectionSQL.pool.query(query,[params, JSON.stringify(newAntecedentes.ante)])
