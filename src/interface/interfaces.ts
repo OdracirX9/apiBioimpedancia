@@ -7,6 +7,8 @@ export interface client {
 	celular:string[]
 	fecha_nacimiento:string | Date;
 	ocupacion:string;
+    direccion:string;
+    estado_civil:string | number;
     create_at?:Date | string;
 }
 

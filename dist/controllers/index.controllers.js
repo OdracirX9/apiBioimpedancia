@@ -35,6 +35,7 @@ exports.indexControllers = {
                 return res.json({
                     //"paciente":result[0],
                     //"query":{
+                    "id_paciente": params,
                     "count": count,
                     "antropometria": {},
                     "bioimpedanciometria": {},
@@ -58,6 +59,7 @@ exports.indexControllers = {
                 return res.json({
                     //"paciente":result[0],
                     //"query":{
+                    "id_paciente": params,
                     "count": count,
                     "antropometria": {},
                     "bioimpedanciometria": {},
@@ -73,6 +75,7 @@ exports.indexControllers = {
             res.json({
                 //"paciente":result[0],
                 //"query":{
+                "id_paciente": params,
                 "count": count,
                 "antropometria": result2[0],
                 "bioimpedanciometria": result3[0],
@@ -252,7 +255,7 @@ exports.indexControllers = {
     createClient: async (req, res) => {
         const newClient = req.body;
         try {
-            const result = await app_1.connectionSQL.pool.query('INSERT INTO info_paciente (nombre,apellido,cedula,sexo,celular,fecha_nacimiento,ocupacion) VALUES (?,?,?,?,?,?,?)', [newClient.nombre, newClient.apellido, newClient.cedula, newClient.sexo, JSON.stringify(newClient.celular), newClient.fecha_nacimiento, newClient.ocupacion]);
+            const result = await app_1.connectionSQL.pool.query('INSERT INTO info_paciente (nombre,apellido,cedula,sexo,celular,fecha_nacimiento,ocupacion,direccion,estado_civil) VALUES (?,?,?,?,?,?,?,?,?)', [newClient.nombre, newClient.apellido, newClient.cedula, newClient.sexo, JSON.stringify(newClient.celular), newClient.fecha_nacimiento, newClient.ocupacion, newClient.direccion, newClient.estado_civil]);
             res.json(result[0]);
         }
         catch (error) {
@@ -267,9 +270,9 @@ exports.indexControllers = {
         const b = newBio.bioimpedancia;
         try {
             //CREAR ANTROPOMETRIA
-            const result = await app_1.connectionSQL.pool.query('INSERT INTO _antropometria (id_paciente, peso, talla, cms_perimetro_cintura, cms_perimetro_cadera, cms_perimetro_cuello, contorno_muneca) VALUES (?,?,?,?,?,?,?)', [params, a.peso, a.talla, a.cms_perimetro_cintura, a.cms_perimetro_cadera, a.cms_perimetro_cuello, a.contorno_muneca]);
+            const result = await app_1.connectionSQL.pool.query('INSERT INTO _antropometria (id_paciente, peso, talla, cms_perimetro_cintura, cms_perimetro_cadera, cms_perimetro_cuello, contorno_muneca, create_at) VALUES (?,?,?,?,?,?,?,?)', [params, a.peso, a.talla, a.cms_perimetro_cintura, a.cms_perimetro_cadera, a.cms_perimetro_cuello, a.contorno_muneca, a.create_at]);
             //CREAR BIOIMPEDANCIA
-            const result2 = await app_1.connectionSQL.pool.query('INSERT INTO _bioimpedanciometria (id_paciente, grasa_corporal, masa_muscular, kca_basal, edad_corporal, grasa_visceral) VALUES (?,?,?,?,?,?)', [params, b.grasa_corporal, b.masa_muscular, b.kca_basal, b.edad_corporal, b.grasa_visceral]);
+            const result2 = await app_1.connectionSQL.pool.query('INSERT INTO _bioimpedanciometria (id_paciente, grasa_corporal, masa_muscular, kca_basal, edad_corporal, grasa_visceral, create_at) VALUES (?,?,?,?,?,?,?)', [params, b.grasa_corporal, b.masa_muscular, b.kca_basal, b.edad_corporal, b.grasa_visceral, b.create_at]);
             console.log({
                 "antropometria": result[0],
                 "bioimpedancia": result2[0]
@@ -286,7 +289,8 @@ exports.indexControllers = {
     },
     createExamenes: async (req, res) => {
         const params = req.params.id;
-        const newExamen = req.body;
+        const newExamen = await req.body;
+        console.log(newExamen);
         let keys = Object.keys(newExamen.proce).join(', ');
         const values = [params, ...Object.values(newExamen.proce)];
         let placeholder = Object.keys(newExamen.proce).map(() => '?').join(',');
@@ -308,7 +312,8 @@ exports.indexControllers = {
     createDosis: async (req, res) => {
         const params = req.params.id;
         const newDosis = req.body;
-        let keys = Object.keys(newDosis.dosis).join(', ');
+        let keysProv = Object.keys(newDosis.dosis);
+        let keys = keysProv.join(', ');
         const values = [params, ...Object.values(newDosis.dosis)];
         let placeholder = Object.keys(newDosis.dosis).map(() => '?').join(',');
         if (newDosis.otro) {

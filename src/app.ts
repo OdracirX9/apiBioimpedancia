@@ -41,7 +41,7 @@ export class App{
         this.app.use(morgan('dev'))
         this.app.use(express.urlencoded({extended:false}));
         this.app.use(express.json())
-        this.app.use(cors(this.corsOpcion))
+        this.app.use(cors())
     }
     private routes(){
         this.app.get('/', (req: Request, res: Response)=>{

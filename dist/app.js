@@ -39,7 +39,7 @@ class App {
         this.app.use((0, morgan_1.default)('dev'));
         this.app.use(express_1.default.urlencoded({ extended: false }));
         this.app.use(express_1.default.json());
-        this.app.use((0, cors_1.default)(this.corsOpcion));
+        this.app.use((0, cors_1.default)());
     }
     routes() {
         this.app.get('/', (req, res) => {
