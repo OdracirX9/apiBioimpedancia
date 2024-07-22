@@ -1,9 +1,15 @@
 {
   "version": 2,
+  "builds": [
+    {
+      "src": "dist/**/*.js",
+      "use": "@vercel/node"
+    }
+  ],
   "functions": {
-    "src/**/*.js": {
-      "maxDuration": 30, 
-      "memory": 1024 
+    "dist/config/createPdf.js": {
+      "maxDuration": 30,
+      "memory": 1024
     }
   }
 }
