@@ -11,5 +11,11 @@
       "src": "/(.*)",
       "dest": "dist/index.js"
     }
-  ]
+  ],
+  "functions": {
+    "api/*": {
+      "maxDuration": 30, 
+      "memory": 1024 
+    }
+  }
 }
