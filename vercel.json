@@ -1,7 +1,7 @@
 {
   "version": 2,
   "functions": {
-    "src/config/createPdf/createpdf.js": {
+    "src/**/*.js": {
       "maxDuration": 30, 
       "memory": 1024 
     }
