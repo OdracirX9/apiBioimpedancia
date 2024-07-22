@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer-core';
-import chromium from 'chrome-aws-lambda';
+import chromium from '@sparticuz/chrome-aws-lambda';
 import path from 'path';
 import fs from 'fs/promises';
 
@@ -41,12 +41,14 @@ export interface PdfData {
 export async function CreatePdf(data: PdfData): Promise<string | false> {
   try {
 
-    const browser = await puppeteer.launch({
+    const browser = await puppeteer.launch({ 
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
-      executablePath: await chromium.executablePath || '/usr/bin/chromium-browser',
+      executablePath: await chromium.executablePath,
       headless: chromium.headless,
-    });
+      ignoreHTTPSErrors: true,
+
+     });
     const page = await browser.newPage();
 
     // Resolver __dirname
@@ -166,7 +168,7 @@ export async function CreatePdf(data: PdfData): Promise<string | false> {
     const pdfBuffer = await page.pdf({
          format:"letter",
          printBackground:true,
-         //path:'prueba.pdf'
+         path:'prueba.pdf'
     })
  
     await browser.close();

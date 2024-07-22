@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreatePdf = CreatePdf;
 const puppeteer_core_1 = __importDefault(require("puppeteer-core"));
-const chrome_aws_lambda_1 = __importDefault(require("chrome-aws-lambda"));
+const chrome_aws_lambda_1 = __importDefault(require("@sparticuz/chrome-aws-lambda"));
 const path_1 = __importDefault(require("path"));
 const promises_1 = __importDefault(require("fs/promises"));
 async function CreatePdf(data) {
@@ -13,8 +13,9 @@ async function CreatePdf(data) {
         const browser = await puppeteer_core_1.default.launch({
             args: chrome_aws_lambda_1.default.args,
             defaultViewport: chrome_aws_lambda_1.default.defaultViewport,
-            executablePath: await chrome_aws_lambda_1.default.executablePath || '/usr/bin/chromium-browser',
+            executablePath: await chrome_aws_lambda_1.default.executablePath,
             headless: chrome_aws_lambda_1.default.headless,
+            ignoreHTTPSErrors: true,
         });
         const page = await browser.newPage();
         // Resolver __dirname
@@ -97,7 +98,7 @@ async function CreatePdf(data) {
         const pdfBuffer = await page.pdf({
             format: "letter",
             printBackground: true,
-            //path:'prueba.pdf'
+            path: 'prueba.pdf'
         });
         await browser.close();
         return pdfBuffer.toString('base64');
