@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.tmb = exports.pGrasaIdealJP = exports.cinturaCadera = exports.texturaCuerpo = exports.pesoIdeal = exports.masaMagra = exports.masaGrasa = exports.porcenGrasaIMC = exports.IMC = exports.porcenGrasaCUNBAE = exports.porcenGrasaUSNAVY = void 0;
+exports.tmb = exports.pGrasaIdealJP = exports.cintuCadeSexo = exports.cinturaCadera = exports.texturaCuerpo = exports.pesoIdeal = exports.masaMagra = exports.masaGrasa = exports.porcenGrasaIMC = exports.IMC = exports.porcenGrasaCUNBAE = exports.porcenGrasaUSNAVY = void 0;
 const porcenGrasaUSNAVY = (sexo, cintura, cuello, talla, cadera) => {
     let pGrasa = 0;
     if (sexo === 'f') {
@@ -62,6 +62,17 @@ const cinturaCadera = (cintura, cadera) => {
     return result;
 };
 exports.cinturaCadera = cinturaCadera;
+const cintuCadeSexo = (sexo, indi) => {
+    let indice = 'Indefinido';
+    if (sexo == 'f') {
+        indice = indi <= 0.80 ? 'Bajo Riesgo' : indi >= 0.81 && indi <= 0.85 ? 'Moderado' : indi >= 0.86 ? 'Alto' : 'Indefinido';
+    }
+    if (sexo == 'm') {
+        indice = indi <= 0.95 ? 'Bajo Riesgo' : indi >= 0.96 && indi <= 1 ? 'Moderado' : indi > 1 ? 'Alto' : 'Indefinido';
+    }
+    return indice;
+};
+exports.cintuCadeSexo = cintuCadeSexo;
 const pGrasaIdealJP = (sexo, edad) => {
     let result = 0;
     if (edad >= 20 && edad <= 25) {

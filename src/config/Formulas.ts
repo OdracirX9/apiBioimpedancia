@@ -58,6 +58,17 @@ export const cinturaCadera = (cintura: number, cadera: number): number => {
     return result;
 }
 
+export const cintuCadeSexo = (sexo:string, indi:number): string =>{
+    let indice = 'Indefinido'
+    if(sexo == 'f'){
+        indice = indi <= 0.80? 'Bajo Riesgo': indi >= 0.81 && indi <= 0.85? 'Moderado':indi >= 0.86? 'Alto':'Indefinido'
+    }
+    if(sexo == 'm'){
+        indice = indi <= 0.95? 'Bajo Riesgo': indi >= 0.96 && indi <= 1? 'Moderado':indi > 1? 'Alto':'Indefinido'
+    }
+    return indice;
+}
+
 export const pGrasaIdealJP = (sexo: string, edad: number): number => {
     let result = 0;
 
