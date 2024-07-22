@@ -39,7 +39,8 @@ export interface PdfData {
 
 export async function CreatePdf(data: PdfData): Promise<string | false> {
   try {
-    const browser = await puppeteer.launch({ headless: 'new' });
+
+    const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
 
     // Resolver __dirname

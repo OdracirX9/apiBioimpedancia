@@ -9,7 +9,7 @@ const path_1 = __importDefault(require("path"));
 const promises_1 = __importDefault(require("fs/promises"));
 async function CreatePdf(data) {
     try {
-        const browser = await puppeteer_1.default.launch({ headless: 'new' });
+        const browser = await puppeteer_1.default.launch({ headless: true });
         const page = await browser.newPage();
         // Resolver __dirname
         const __dirname = path_1.default.resolve();
