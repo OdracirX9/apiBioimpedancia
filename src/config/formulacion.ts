@@ -1,0 +1,60 @@
+import * as formu from './Formulas'
+
+
+
+//OBJETO QUE DEVOLVERA TODO LO QUE SE NECESITA
+export const ResultsPam = (getPacId: any) => {
+
+    function calculateAge(birthDateString: any, fechaExamen: any) {
+        const today = new Date(fechaExamen);
+        const birthDate = new Date(birthDateString);
+
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDifference = today.getMonth() - birthDate.getMonth();
+        const dayDifference = today.getDate() - birthDate.getDate();
+
+        // Ajustar la edad si el cumpleaños no ha ocurrido aún en el año actual
+        if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
+            age--;
+        }
+
+        return age;
+    }
+
+    const all = {
+        fechaI: `${new Date().getDate()}/${new Date().getMonth() + 1}/${new Date().getFullYear()}`,
+        nombre: getPacId.nombre,
+        apellido: getPacId.apellido,
+        identificacion: getPacId.cedula,
+        direccion: getPacId.direccion,
+        celular1: getPacId?.celular[0],
+        celular2: getPacId?.celular[1],
+        fechaN: `${new Date(getPacId.fecha_nacimiento).getDate()}/${new Date(getPacId.fecha_nacimiento).getMonth() + 1}/${new Date(getPacId.fecha_nacimiento).getFullYear()}`,
+        edad: calculateAge(getPacId.fecha_nacimiento, getPacId.antropometria.created_at),
+        sexo: getPacId.sexo == "f" ? 'Femenino' : 'Masculino',
+        estadoCivil: getPacId.estado_civil == 1 ? 'Solter@' : getPacId.estado_civil == 2 ? 'Casad@' : getPacId.estado_civil == 3 ? 'Union libre o unión de hecho' : getPacId.estado_civil == 4 ? 'Separad@' : getPacId.estado_civil == 5 ? 'Divorciad@' : getPacId.estado_civil == 6 ? 'Viud@' : 'No calculado',
+        historiaN: "00000",
+        fechaE: `${new Date(getPacId.antropometria.created_at).getDate()}/${new Date(getPacId.antropometria.created_at).getMonth() + 1}/${new Date(getPacId.antropometria.created_at).getFullYear()}`,
+        pesoAntro: getPacId.antropometria.peso,
+        cuelloAntro: getPacId.antropometria.cuello,
+        tallaAntro: getPacId.antropometria.talla,
+        munecaAntro: getPacId.antropometria.muneca,
+        cinturaAntro: getPacId.antropometria.cintura,
+        imc: formu.IMC(getPacId.antropometria.peso, getPacId.antropometria.talla).toFixed(2),
+        imcIndi: 'Indefinido',
+        caderaAntro: getPacId.antropometria.cadera,
+        cinturaCadera: formu.cinturaCadera(getPacId.antropometria.cintura, getPacId.antropometria.cadera).toFixed(2),
+        cinturaCaderaIndi: 'Indefinido',
+        grasaCorpPORCENT: getPacId.bioimpedanciometria.grasa_corporal,
+        grasaCorpKG: formu.masaGrasa(getPacId.antropometria.peso, getPacId.bioimpedanciometria.grasa_corporal),
+        grasaCorpIndi: 'Indefinido',
+        pesoPerderRES: (getPacId.antropometria.peso - formu.pesoIdeal(getPacId.antropometria.peso, getPacId.bioimpedanciometria.grasa_corporal, formu.pGrasaIdealJP(getPacId.sexo, calculateAge(getPacId.fecha_nacimiento, getPacId.antropometria.created_at)))).toFixed(2),
+        pesoIdealRES: formu.pesoIdeal(getPacId.antropometria.peso, getPacId.bioimpedanciometria.grasa_corporal, formu.pGrasaIdealJP(getPacId.sexo, calculateAge(getPacId.fecha_nacimiento, getPacId.antropometria.created_at))).toFixed(2),
+        kcalBasal: getPacId.bioimpedanciometria.kca_basal,
+        kcalBasalIdealRES: formu.tmb(getPacId.sexo, formu.pesoIdeal(getPacId.antropometria.peso, getPacId.bioimpedanciometria.grasa_corporal, formu.pGrasaIdealJP(getPacId.sexo, calculateAge(getPacId.fecha_nacimiento, getPacId.antropometria.created_at))), getPacId.antropometria.talla, calculateAge(getPacId.fecha_nacimiento, getPacId.antropometria.created_at)).toFixed(0),
+        edadCorporal: getPacId.bioimpedanciometria.edad_corporal,
+        grasaVisceral: getPacId.bioimpedanciometria.grasa_visceral
+    }
+
+    return all;
+}

@@ -9,6 +9,7 @@ router.get('/:id', index_controllers_1.indexControllers.getClient);
 router.get('/:id/examenes', index_controllers_1.indexControllers.getClientExamenes);
 router.get('/:id/dosis', index_controllers_1.indexControllers.getClientDosis);
 router.get('/:id/antecedentes', index_controllers_1.indexControllers.getClientAntecedentes);
+router.get('/pdf/:id', index_controllers_1.indexControllers.crearPdf);
 router.post('/', index_controllers_1.indexControllers.createClient);
 router.post('/:id', index_controllers_1.indexControllers.createBio);
 router.post('/:id/examenes', index_controllers_1.indexControllers.createExamenes);

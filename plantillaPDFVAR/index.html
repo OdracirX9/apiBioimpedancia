@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="tailwindCss.js"></script> 
+    <style>
+        @font-face{
+            font-family: 'quicksand';
+            src: url("fonts/Quicksand/Quicksand-VariableFont_wght.ttf") format('truetype');
+        }           
+    </style>
+    
+   
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container-page flex flex-col text-[7pt] font-medium">
+        
+        <header class="w-full h-[1.7cm] flex items-center gap-8">
+            <img src="images/logoCabecera.svg" alt="" class="w-[3.7cm] h-[auto]">
+            <div class="w-max h-full flex">
+                <div class="w-max h-full flex flex-col justify-evenly pr-7">
+                    <p class="w-[12rem] text-[8pt] font-black">CLINICA NIEVES CLINICA VASCULAR DE CASANARE S.A.S</p>
+                    <p class="font-black text-[8pt]">Colombia: Yopal/Casanare - 900627725-8</p>
+                </div>
+
+                <div class="w-1 h-full border-l-2 border-zinc-300 rounded-full"></div>
+
+                <div class="flex flex-col justify-between pl-7">
+                    <p class="text-[8pt] font-black">HISTORIA CLINICA</p>
+                    <p class="w-[11rem]">Programa de adelgazamiento con acompañamiento médico - <span class="font-black text-[7pt]">PAM</span></p>
+                    <p class="font-black">Fecha impresión: <span class="font-medium">{{fechaI}}</span></p>
+                </div>
+            </div>
+        </header>
+
+        <section class="w-full h-max flex flex-col gap-4 mt-8 border-x border-zinc-300 px-5 py-3">
+            <p class="text-[8pt] font-black">Datos del paciente</p>
+            <div class="w-full h-full px-4 grid grid-cols-3">
+
+                <div class="w-full h-max flex flex-col gap-2">
+                    <p class="font-black text-[8pt]">Nombre: <span class="font-medium">{{nombre}}</span></p>
+                    <p class="font-black text-[8pt]">Apellido: <span class="font-medium">{{apellido}}</span></p>
+                    <p class="font-black text-[8pt]">Identificación: <span class="font-medium">CC {{identificacion}}</span></p>
+                    <p class="font-black text-[8pt]">Dirección: <span class="font-medium">{{direccion}}</span></p>
+                    <p class="font-black text-[8pt]">Celular 1: <span class="font-medium">{{celular1}}</span></p>
+                </div>
+
+                <div class="w-full h-full flex pr-3">
+                    <div class="w-1 h-full border-l border-zinc-300"></div>
+                    <div class="w-full h-max pl-6 flex flex-col gap-2">
+                        <p class="font-black text-[8pt]">Fecha de nacimiento: <span class="font-medium">{{fechaN}}</span></p>
+                        <p class="font-black text-[8pt]">Edad: <span class="font-medium">{{edad}} años</span></p>
+                        <p class="font-black text-[8pt]">Sexo: <span class="font-medium">{{sexo}}</span></p>
+                        <p class="font-black text-[8pt]">Estado civil: <span class="font-medium">{{estadoCivil}}</span></p>
+                        <p class="font-black text-[8pt]">Celular 2: <span class="font-medium">{{celular2}}</span></p>
+                    </div>
+                </div>
+
+                <div class="w-full h-full flex pr-3">
+                    <div class="w-1 h-full border-l border-zinc-300"></div>
+                    <div class="w-full h-max pl-6 flex flex-col gap-2">
+                        <p class="font-black text-[8pt]">Régimen: <span class="font-medium">Particular</span></p>
+                        <p class="font-black text-[8pt]">Tipo de vinculación: <span class="font-medium">Cotizante</span></p>
+                        <p class="font-black text-[8pt]">Entidad: <span class="font-medium">Particular</span></p>
+                        <p class="font-black text-[8pt]">No. historia: <span class="font-medium">{{historiaN}}</span></p>
+                        <p class="font-black text-[8pt]">Fecha elaboración: <span class="font-medium">{{fechaE}}</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <hr class="w-10/12 mx-auto mt-8 mb-8 border-zinc-300">
+        <main class="w-full h-full flex flex-col gap-10">
+
+            <section class="w-full px-5 flex flex-col gap-8">
+                <p class="w-max text-[9pt] font-black px-2 py-1 rounded-lg border border-zinc-300 border-2">Examen antropométrico</p>
+
+                <div class="w-full h-max grid grid-cols-[22%_26%_26%_26%] pl-4 pr-2">
+
+                    <div class="w-full h-max flex flex-col gap-8">
+                        <div class="w-full h-max flex">
+                            <img src="images/peso.svg" alt="" class="w-[auto] h-10">
+                            <div class="w-max flex flex-col px-3">
+                                <p class="text-[8pt] font-black">Peso corporal:</p>
+                                <p class="text-[9pt] font-black text-zinc-500 text-center">{{pesoAntro}} KG</p>
+                            </div>
+                        </div>
+
+                        <div class="w-full h-max flex">
+                            <img src="images/cuello.svg" alt="" class="w-11 h-10">
+                            <div class="w-max flex flex-col px-3">
+                                <p class="text-[8pt] font-black">Cuello:</p>
+                                <p class="text-[9pt] font-black text-zinc-500 text-center">{{cuelloAntro}} cm</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-full h-max flex flex-col gap-8 pl-6 border-l border-zinc-300">
+                        <div class="w-full h-max flex">
+                            <img src="images/talla.svg" alt="" class="w-[auto] h-10">
+                            <div class="w-max flex flex-col px-3">
+                                <p class="text-[8pt] font-black">Estatura:</p>
+                                <p class="text-[9pt] font-black text-zinc-500 text-center">{{tallaAntro}} cm</p>
+                            </div>
+                        </div>
+
+                        <div class="w-full h-max flex">
+                            <img src="images/muneca.svg" alt="" class="w-6 h-10">
+                            <div class="w-max flex flex-col px-3">
+                                <p class="text-[8pt] font-black">Contorno muñeca:</p>
+                                <p class="text-[9pt] font-black text-zinc-500 text-center">{{munecaAntro}} cm</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-full h-max flex flex-col gap-8 pl-5 border-l border-zinc-300">
+                        <div class="w-full h-max flex">
+                            <img src="images/cinturaM.svg" alt="" class="w-9 h-10">
+                            <div class="w-max flex flex-col px-3">
+                                <p class="text-[8pt] font-black">Cintura:</p>
+                                <p class="text-[9pt] font-black text-zinc-500 text-center">{{cinturaAntro}} cm</p>
+                            </div>
+                        </div>
+
+                        <div class="w-full h-max flex">
+                            <img src="images/imc.svg" alt="" class="w-10 h-10">
+                            <div class="w-max flex flex-col px-3">
+                                <p class="text-[8pt] font-black">Kg/m2:</p>
+                                <p class="text-[9pt] font-black text-zinc-500 text-center">{{imc}} <span class="text-[7pt]">({{imcIndi}})</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-full h-max flex flex-col gap-8 pl-5 border-l border-zinc-300">
+                        <div class="w-full h-max flex">
+                            <img src="images/caderaM.svg" alt="" class="w-11 h-10">
+                            <div class="w-max flex flex-col px-3">
+                                <p class="text-[8pt] font-black">Cadera:</p>
+                                <p class="text-[9pt] font-black text-zinc-500 text-center">{{caderaAntro}} cm</p>
+                            </div>
+                        </div>
+
+                        <div class="w-full h-max flex">
+                            <img src="images/cintura-caderaM.svg" alt="" class="w-11 h-10">
+                            <div class="w-max flex flex-col px-3">
+                                <p class="text-[8pt] font-black">Cintura/Cadera:</p>
+                                <p class="text-[9pt] font-black text-zinc-500 text-center">{{cinturaCadera}} <span class="text-[7pt]">({{cinturaCaderaIndi}})</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="w-full px-5 flex flex-col gap-6">
+                <p class="w-max text-[9pt] font-black px-2 py-1 rounded-lg border border-zinc-300 border-2">Resultados bioimpedancia</p>
+                <div class="w-full h-max grid grid-cols-[50%_50%] pr-2 gap-4">
+                    
+                    <div class="w-full h-max flex flex-col items-center gap-4">
+
+                        <div class="w-full h-max border shadow rounded-xl p-2 py-4 flex flex-col gap-4">
+                            <div class="w-full h-max flex px-2 gap-1 items-center">
+                                <p class="w-max h-max border border-4 text-[10pt] font-black py-1 px-2 rounded-lg">Grasa corporal:</p>
+                                <p class="w-max h-max border border-4 text-[9pt] text-center font-black py-1 px-2 rounded-lg">{{grasaCorpPORCENT}} %</p>
+                                <p class="w-max h-max border border-4 text-[9pt] text-center font-black py-1 px-2 rounded-lg">{{grasaCorpKG}} KG</p>
+                                <p class="h-max border border-4 border-rose-300 text-rose-400 text-[9pt] font-black py-1 px-2 rounded-lg">{{grasaCorpIndi}}</p>
+    
+                            </div>
+    
+                            <div class="relative mt-4 w-full h-[4.8rem] flex items-end pb-4 justify-center gap-1">
+                                <div class="relative w-[28.571%] h-3 rounded-md bg-indigo-900">
+                                    <p class="absolute top-4 left-0 font-black text-[9pt]">0%</p>
+                                    <p class="absolute translate-x-[100%] top-4 right-0 font-black text-[9pt]">8%</p>
+                                </div>
+                                <div class="relative w-[28.571%] h-3 rounded-md bg-indigo-500">
+                                    <p class="absolute translate-x-[100%] top-4 right-0 font-black text-[9pt]">16%</p>
+                                </div>
+                                <div class="relative w-[17.857%] h-3 rounded-md bg-rose-300">
+                                    <p class="absolute translate-x-[100%] top-4 right-0 font-black text-[9pt]">21%</p>
+                                </div>
+                                <div class="relative w-[14.285%] h-3 rounded-md bg-orange-400">
+                                    <p class="absolute translate-x-[100%] top-4 right-0 font-black text-[9pt]">>=25%</p>
+                                </div>
+                                <div class="w-[10.714%] h-3 rounded-md bg-red-600"></div>
+    
+                                <div class="absolute w-full h-16 top-[0%]">
+                                    <div class="absolute translate-x-[-50%] left-[calc({{grasaCorpPORCENT_LIMIT}}%_/_0.28)] w-5 h-full  flex flex-col">
+                                        <p class="absolute translate-x-[-50%] left-[50%] font-black text-[0.8rem] border border-4 top-[-4px] rounded-md pl-1">{{grasaCorpPORCENT}}%</p>
+                                        <p></p>
+                                        <div class="absolute translate-x-[-50%] top-[25px] left-[50%] w-2 h-6 border border-zinc-400 rounded shadow bg-white"></div>
+                                        <div class="absolute bottom-0 w-full h-7 rounded bg-white shadow border border-zinc-400 flex items-center justify-center">
+                                            <p class="text-[0.8rem] font-black">| |</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-full h-max mt-8 flex flex-wrap justify-center h-10 gap-2">
+                                <div class="w-[30%] h-5 rounded-md bg-indigo-900 border">
+                                    <p class="text-center font-black text-[9pt] text-white">DELGADO</p>
+                                </div>
+                                <div class="w-[30%] h-5 rounded-md bg-indigo-500 border">
+                                    <p class="text-center font-black text-[9pt] text-white">OPTIMO</p>
+                                </div>
+                                <div class="w-[30%] h-5 rounded-md bg-rose-300 border">
+                                    <p class="text-center font-black text-[9pt] text-white">LIG. SOBREPESO</p>
+                                </div>
+                                <div class="w-[30%] h-5 rounded-md bg-orange-400 border">
+                                    <p class="text-center font-black text-[9pt] text-white">SOBREPESO</p>
+                                </div>
+                                <div class="w-[30%] h-5 rounded-md bg-red-600 border">
+                                    <p class="text-center font-black text-[9pt] text-white">OBESIDAD</p>
+                                </div>
+                            </div>
+    
+                        </div>
+                        <div class="w-full h-24 border shadow rounded-lg py-2 px-4 flex flex-col gap-3">
+                            <p class="font-black text-[9pt] py-1">Grasa corporal para perder peso: <span class="py-1 px-2 border border-4 border-orange-300 text-orange-600 rounded-lg text-[10pt]">{{pesoPerderRES}} KG</span></p>
+                            <p class="font-black text-[9pt] py-1">Peso necesario ideal para la edad: <span class="py-1 px-2 border border-4 border-cyan-700 text-cyan-700 rounded-lg text-[10pt]"> {{pesoIdealRES}} KG</span></p>
+                        </div>
+                    </div>
+
+                    <div class="w-full h-max flex flex-col gap-4">
+                        <div class="w-full h-max border shadow rounded-lg p-4 gap-3 flex flex-col">
+
+                            <p class="font-black text-[9pt] py-1">Gasto calorico diario: <span class="py-1 px-2 border border-4 border-orange-300 text-orange-600 rounded-lg text-[10pt]"> {{kcalBasal}} Kcal/dia</span></p>
+                            <p class="font-black text-[9pt] py-1">Gasto calorico ideal diario: <span class="py-1 px-2 border border-4 border-cyan-700 text-cyan-700 rounded-lg text-[10pt]"> {{kcalBasalIdealRES}} Kcal/dia</span></p>
+
+                        </div>
+                        <div class="relative w-full h-48 flex flex-col border shadow rounded-lg px-2 py-2">
+                            <p class="w-max h-max border border-4 text-[8pt] font-black py-1 px-2 rounded-lg">Edad corporal:</p>
+                            <div class="relative w-full h-24 flex items-center mt-4">
+                                <div class="z-30 w-[20px] max-w-[20px] h-6 rounded-full bg-teal-300"></div>
+                                <div class="z-30 relative w-full h-2 bg-teal-300">
+                                    <p class="absolute top-[-14px] left-[3px] text-[7pt] font-black text-zinc-400">0 años</p>
+                                </div>
+                                <div class="z-30 w-[20px] max-w-[20px] h-6 rounded-full bg-teal-300"></div>
+                                <div class="z-30 relative w-full h-2 bg-teal-300">
+                                    <p class="absolute top-[-14px] left-[3px] text-[7pt] font-black text-zinc-400">25 años</p>
+                                    <img class="absolute w-7 translate-x-[-50%] top-5" src="images/joven.svg" alt="">
+                                </div>
+                                <div class="z-30 w-[20px] max-w-[20px] h-6 rounded-full bg-teal-300"></div>
+                                <div class="z-30 relative w-full h-2 bg-teal-300">
+                                    <p class="absolute top-[-14px] left-[3px] text-[7pt] font-black text-zinc-400">50 años</p>
+                                    <img class="absolute w-6 top-5 translate-x-[-50%] " src="images/adulto.svg" alt="">
+                                </div>
+                                <div class="z-30 w-[20px] max-w-[20px] h-6 rounded-full bg-teal-300"></div>
+                                <div class="z-30 relative w-full h-2 bg-teal-300">
+                                    <p class="absolute top-[-14px] left-[3px] text-[7pt] font-black text-zinc-400">75 años</p>
+                                    <img class="absolute w-8 top-5 translate-x-[-50%]" src="images/viejo.svg" alt="">
+                                </div>
+                                <div class="z-30 w-[20px] max-w-[20px] h-6 rounded-full bg-teal-300"></div>
+    
+                                <div class="z-40 absolute top-[-15px] w-full h-[4.6rem]">
+                                    <div class="absolute translate-x-[-50%] w-6 h-full flex justify-center left-[{{edad}}%]">
+                                        <p class="z-10 absolute w-max font-black top-2 border rounded border-2 border-purple-600 px-1 text-[8pt] bg-white">{{edad}} años</p>
+                                        <div class="absolute w-1 h-10 top-6 bg-purple-600 rounded shadow-lg"></div>
+                                        <div class="absolute bottom-0 w-5 h-5 bg-purple-600 rounded shadow-lg"></div>
+                                    </div>
+
+                                    <div class="z-[50] absolute translate-x-[-50%] w-6 h-full flex justify-center left-[{{edadCorporal}}%]">
+                                        <p class="z-10 absolute w-max font-black top-6 border rounded border-2 border-orange-400 px-1 text-[8pt] bg-white">{{edadCorporal}} años</p>
+                                        <div class="absolute w-1 h-4 top-10 bg-orange-400 rounded shadow-lg"></div>
+                                        <div class="absolute bottom-0 w-5 h-5 bg-orange-400 rounded shadow-lg"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="absolute bottom-0 left-0 w-full flex justify-end items-end py-[2px] px-4 gap-3 h-6">
+                                <div class="flex items-center gap-1">
+                                    <div class="w-4 h-4 rounded bg-purple-600"></div>
+                                    <p class="font-black">Edad Actual</p>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <div class="w-4 h-4 rounded bg-orange-400"></div>
+                                    <p class="font-black">Edad Corporal</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative w-full h-24 border shadow rounded-lg p-2 flex gap-1">
+                            <div class="w-max h-max">
+                                <p class="w-max h-max border border-4 text-[8pt] font-black py-1 px-2 rounded-lg">Grasa visceral:</p>
+                            </div>
+                            <div class="relative w-full h-8 flex items-center gap-1 px-2">
+                                
+                                <div class="w-[70.588%] h-2 rounded-full bg-sky-400">
+                                    <p class="text-[9pt] mt-[-19px] font-bold">0%</p>
+                                </div>
+                                <div class="w-[17.647%] h-2 bg-orange-300 rounded-full">
+                                    <p class="text-[9pt] mt-[-19px] font-bold">13%</p>
+                                </div>
+                                <div class="w-[11.765%] h-2 bg-red-500 rounded-full">
+                                    <p class="text-[9pt] mt-[-19px] font-bold">>=16%</p>
+                                </div>
+                                <div class="absolute w-[calc(100%_-_1rem)] h-14 top-[5px] left-2">
+                                    <div class="absolute w-4 h-full top-0 translate-x-[-50%] left-[calc({{grasaVisceral_LIMIT}}%_/_0.17)] flex flex-col items-center">
+                                        <div class="z-20 w-4 h-6 border rounded bg-white font-black shadow-lg flex items-center justify-center">| |</div>
+                                        <div class="z-10 mt-[-5px] w-2 h-3 border bg-white rounded-full"></div>
+                                        <p class="text-[9pt] font-black border border-2 px-1 rounded-md">{{grasaVisceral}}%</p>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="absolute bottom-0 left-0 w-full flex justify-end items-end py-[2px] px-4 gap-3 h-6">
+                                <div class="flex items-center gap-1">
+                                    <div class="w-4 h-4 rounded bg-sky-400"></div>
+                                    <p class="font-black">Bajo riesgo</p>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <div class="w-4 h-4 rounded bg-orange-300"></div>
+                                    <p class="font-black">Moderado riesgo</p>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <div class="w-4 h-4 rounded bg-red-500"></div>
+                                    <p class="font-black">Alto riesgo</p>
+                                </div>
+                            </div>
+                            
+
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+
+        </main>
+
+    </div>
+
+    
+</body>
+</html>

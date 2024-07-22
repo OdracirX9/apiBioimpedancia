@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.indexControllers = void 0;
 //IMPORTANDO LA CONEXION DE LA BASE DE DATOS
 const app_1 = require("../app");
+const createpdf_1 = require("../config/createPdf/createpdf");
+const formulacion_1 = require("../config/formulacion");
 //COMPROBACION DE CONEXION A LA BASE DE DATO
 const checkConnection = async (res) => {
     const checkConnection = await app_1.connectionSQL.check();
@@ -268,11 +270,17 @@ exports.indexControllers = {
         const newBio = req.body;
         const a = newBio.antropometria;
         const b = newBio.bioimpedancia;
+        let fechaVar = b.created_at;
+        if (!fechaVar) {
+            let newDate = new Date();
+            fechaVar = `${newDate.getFullYear()}-${newDate.getMonth() + 1}-${newDate.getDate()}`;
+        }
+        console.log(fechaVar);
         try {
             //CREAR ANTROPOMETRIA
-            const result = await app_1.connectionSQL.pool.query('INSERT INTO _antropometria (uuid,id_paciente, peso, talla,cintura,cadera,cuello,muneca, created_at) VALUES (UUID(),?,?,?,?,?,?,?,?)', [params, a.peso, a.talla, a.cintura, a.cadera, a.cuello, a.muneca, a.created_at]);
+            const result = await app_1.connectionSQL.pool.query('INSERT INTO _antropometria (uuid,id_paciente, peso, talla,cintura,cadera,cuello,muneca, created_at) VALUES (UUID(),?,?,?,?,?,?,?,?)', [params, a.peso, a.talla, a.cintura, a.cadera, a.cuello, a.muneca, fechaVar]);
             //CREAR BIOIMPEDANCIA
-            const result2 = await app_1.connectionSQL.pool.query('INSERT INTO _bioimpedanciometria (uuid,id_paciente, grasa_corporal, masa_muscular, kca_basal, edad_corporal, grasa_visceral, created_at) VALUES (UUID(),?,?,?,?,?,?,?)', [params, b.grasa_corporal, b.masa_muscular, b.kca_basal, b.edad_corporal, b.grasa_visceral, b.created_at]);
+            const result2 = await app_1.connectionSQL.pool.query('INSERT INTO _bioimpedanciometria (uuid,id_paciente, grasa_corporal, masa_muscular, kca_basal, edad_corporal, grasa_visceral, created_at) VALUES (UUID(),?,?,?,?,?,?,?)', [params, b.grasa_corporal, b.masa_muscular, b.kca_basal, b.edad_corporal, b.grasa_visceral, fechaVar]);
             console.log({
                 "antropometria": result[0],
                 "bioimpedancia": result2[0]
@@ -340,6 +348,66 @@ exports.indexControllers = {
         }
         catch (error) {
             res.json(error);
+        }
+    },
+    crearPdf: async (req, res) => {
+        const params = req.params.id;
+        let queryFecha = String(req.query.date);
+        let queryPaciente;
+        let arrayQueryPaciente;
+        let year = '';
+        let month = '';
+        let day = '';
+        try {
+            const [result] = await app_1.connectionSQL.pool.query('SELECT * FROM info_paciente WHERE uuid = ? LIMIT 1', [params]);
+            console.log('Acto 1');
+            const [count] = await app_1.connectionSQL.pool.query('SELECT created_at FROM _antropometria WHERE id_paciente = ? ORDER BY created_at DESC', [params]);
+            console.log('Acto 2');
+            if (count.length === 0) {
+                return res.status(204).json({
+                    'No se encontro informacion del usuario para descargar': count
+                });
+            }
+            console.log('Acto 3');
+            if (queryFecha) {
+                queryFecha = new Date(queryFecha);
+                year = queryFecha.getUTCFullYear();
+                month = queryFecha.getUTCMonth() + 1;
+                day = queryFecha.getUTCDate();
+                queryPaciente = `SELECT * FROM _antropometria WHERE id_paciente = ? AND YEAR(created_at) = ? AND MONTH(created_at) = ? AND DAY(created_at) = ? LIMIT 1`;
+                arrayQueryPaciente = [params, year, month, day];
+            }
+            else {
+                queryPaciente = 'SELECT * FROM _antropometria WHERE id_paciente = ? ORDER BY created_at DESC LIMIT 1';
+                arrayQueryPaciente = [params];
+            }
+            const [result2] = await app_1.connectionSQL.pool.query(queryPaciente, arrayQueryPaciente);
+            console.log('Acto 4');
+            if (!queryFecha) {
+                year = `${result2[0].created_at.getUTCFullYear()}`;
+                month = `${result2[0].created_at.getUTCMonth() + 1}`;
+                day = `${result2[0].created_at.getUTCDate()}`;
+            }
+            const [result3] = await app_1.connectionSQL.pool.query('SELECT * FROM _bioimpedanciometria WHERE id_paciente = ? AND YEAR(created_at) = ? AND MONTH(created_at) = ? AND DAY(created_at) = ? LIMIT 1', [params, year, month, day]);
+            console.log('Acto 5');
+            const getPac = {
+                ...result[0],
+                "antropometria": result2[0],
+                "bioimpedanciometria": result3[0],
+            };
+            console.log('Acto 6');
+            if (!getPac.antropometria) {
+                return res.status(204).json('No existe ningun informe solicitado');
+            }
+            console.log('Acto 7');
+            const varPam = (0, formulacion_1.ResultsPam)(getPac);
+            const pdf64 = await (0, createpdf_1.CreatePdf)(varPam);
+            res.json(pdf64);
+            console.log('Acto Final');
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(404).json(error);
         }
     }
 };

@@ -11,6 +11,7 @@ router.get('/:id', indexControllers.getClient)
 router.get('/:id/examenes', indexControllers.getClientExamenes)
 router.get('/:id/dosis', indexControllers.getClientDosis)
 router.get('/:id/antecedentes', indexControllers.getClientAntecedentes)
+router.get('/pdf/:id', indexControllers.crearPdf)
 
 router.post('/', indexControllers.createClient)
 router.post('/:id', indexControllers.createBio)

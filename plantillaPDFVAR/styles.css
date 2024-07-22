@@ -1,0 +1,35 @@
+@page{
+    size: letter;
+    margin: 0mm;
+}
+
+
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+}
+
+body{
+    background-color: rgb(41, 41, 41);
+    display: flex;
+    justify-content: center;
+}
+
+
+.container-page{
+    width: 21.59cm;
+    height: 27.94cm;
+    /*border: 5px solid orange;*/
+    padding: 0.6cm 0.7cm;
+    overflow: hidden;
+    background-color: white;
+    font-family: 'quicksand', sans-serif;
+}
+
+
+
+
+
