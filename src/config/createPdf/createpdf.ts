@@ -43,7 +43,8 @@ export async function CreatePdf(data: PdfData): Promise<string | false> {
 
     const browser = await puppeteer.launch({
       args: chromium.args,
-      executablePath: await chromium.executablePath,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath || '/usr/bin/chromium-browser',
       headless: chromium.headless,
     });
     const page = await browser.newPage();

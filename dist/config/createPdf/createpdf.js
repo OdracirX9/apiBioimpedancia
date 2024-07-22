@@ -12,7 +12,8 @@ async function CreatePdf(data) {
     try {
         const browser = await puppeteer_core_1.default.launch({
             args: chrome_aws_lambda_1.default.args,
-            executablePath: await chrome_aws_lambda_1.default.executablePath,
+            defaultViewport: chrome_aws_lambda_1.default.defaultViewport,
+            executablePath: await chrome_aws_lambda_1.default.executablePath || '/usr/bin/chromium-browser',
             headless: chrome_aws_lambda_1.default.headless,
         });
         const page = await browser.newPage();
