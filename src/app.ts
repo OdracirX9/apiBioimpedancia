@@ -9,6 +9,7 @@ import * as mysql2 from 'mysql2/promise';
 //IMPORTANDO RUTAS ESTABLECIDAS
 import IndexRouter from "./routes/index.routes";
 
+const port = process.env.PORT || 4000;
 
 export const connectionSQL = new conectionMySql()
 
@@ -23,7 +24,7 @@ export class App{
         }
 
         this.app = express();
-        this.app.set('port', process.env.PORT || 4100);
+        this.app.set('port', port);
         this.middlewares();
         this.routes()
         this.pool = connectionSQL.pool
