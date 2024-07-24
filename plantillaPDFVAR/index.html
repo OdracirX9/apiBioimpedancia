@@ -52,7 +52,7 @@
                     <div class="w-1 h-full border-l border-zinc-300"></div>
                     <div class="w-full h-max pl-6 flex flex-col gap-2">
                         <p class="font-black text-[8pt]">Fecha de nacimiento: <span class="font-medium">{{fechaN}}</span></p>
-                        <p class="font-black text-[8pt]">Edad: <span class="font-medium">{{edad}} años</span></p>
+                        <p class="font-black text-[8pt]">Edad en examen: <span class="font-medium">{{edad}} años</span></p>
                         <p class="font-black text-[8pt]">Sexo: <span class="font-medium">{{sexo}}</span></p>
                         <p class="font-black text-[8pt]">Estado civil: <span class="font-medium">{{estadoCivil}}</span></p>
                         <p class="font-black text-[8pt]">Celular 2: <span class="font-medium">{{celular2}}</span></p>
@@ -164,29 +164,30 @@
                                 <p class="w-max h-max border border-4 text-[10pt] font-black py-1 px-2 rounded-lg">Grasa corporal:</p>
                                 <p class="w-max h-max border border-4 text-[9pt] text-center font-black py-1 px-2 rounded-lg">{{grasaCorpPORCENT}} %</p>
                                 <p class="w-max h-max border border-4 text-[9pt] text-center font-black py-1 px-2 rounded-lg">{{grasaCorpKG}} KG</p>
-                                <p class="h-max border border-4 border-rose-300 text-rose-400 text-[9pt] font-black py-1 px-2 rounded-lg">{{grasaCorpIndi}}</p>
+                                <p class="h-max border border-4 border-{{colorGrasa}} text-{{colorGrasa}} text-center text-[9pt] font-black py-1 px-2 rounded-lg">{{textIndi}}</p>
     
                             </div>
     
                             <div class="relative mt-4 w-full h-[4.8rem] flex items-end pb-4 justify-center gap-1">
-                                <div class="relative w-[28.571%] h-3 rounded-md bg-indigo-900">
+
+                                <div class="relative w-[{{rb1gp}}%] h-3 rounded-md bg-indigo-900">
                                     <p class="absolute top-4 left-0 font-black text-[9pt]">0%</p>
-                                    <p class="absolute translate-x-[100%] top-4 right-0 font-black text-[9pt]">8%</p>
+                                    <p class="absolute translate-x-[100%] top-4 right-0 font-black text-[9pt]">{{rp1gp}}%</p>
                                 </div>
-                                <div class="relative w-[28.571%] h-3 rounded-md bg-indigo-500">
-                                    <p class="absolute translate-x-[100%] top-4 right-0 font-black text-[9pt]">16%</p>
+                                <div class="relative w-[{{rb2gp}}%] h-3 rounded-md bg-indigo-500">
+                                    <p class="absolute translate-x-[100%] top-4 right-0 font-black text-[9pt]">{{rp2gp}}%</p>
                                 </div>
-                                <div class="relative w-[17.857%] h-3 rounded-md bg-rose-300">
-                                    <p class="absolute translate-x-[100%] top-4 right-0 font-black text-[9pt]">21%</p>
+                                <div class="relative w-[{{rb3gp}}%] h-3 rounded-md bg-orange-400">
+                                    <p class="absolute translate-x-[100%] top-4 right-0 font-black text-[9pt]">{{rp3gp}}%</p>
                                 </div>
-                                <div class="relative w-[14.285%] h-3 rounded-md bg-orange-400">
-                                    <p class="absolute translate-x-[100%] top-4 right-0 font-black text-[9pt]">>=25%</p>
+                                <div class="relative w-[12%] h-3 rounded-md bg-red-600">
+                                    <!-- <p class="absolute translate-x-[100%] top-4 right-0 font-black text-[9pt]">>={{rp4gp}}%</p> -->
                                 </div>
-                                <div class="w-[10.714%] h-3 rounded-md bg-red-600"></div>
+                                
     
                                 <div class="absolute w-full h-16 top-[0%]">
-                                    <div class="absolute translate-x-[-50%] left-[calc({{grasaCorpPORCENT_LIMIT}}%_/_0.28)] w-5 h-full  flex flex-col">
-                                        <p class="absolute translate-x-[-50%] left-[50%] font-black text-[0.8rem] border border-4 top-[-4px] rounded-md pl-1">{{grasaCorpPORCENT}}%</p>
+                                    <div class="absolute translate-x-[-50%] left-[calc({{grasaCorpPORCENT_LIMIT}}%_/_{{calc100}})] w-5 h-full  flex flex-col">
+                                        <p class="absolute translate-x-[-50%] left-[50%] font-black text-[0.8rem] border border-4 border-{{colorGrasa}} top-[-4px] rounded-md pl-1">{{grasaCorpPORCENT}}%</p>
                                         <p></p>
                                         <div class="absolute translate-x-[-50%] top-[25px] left-[50%] w-2 h-6 border border-zinc-400 rounded shadow bg-white"></div>
                                         <div class="absolute bottom-0 w-full h-7 rounded bg-white shadow border border-zinc-400 flex items-center justify-center">
@@ -195,22 +196,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="w-full h-max mt-8 flex flex-wrap justify-center h-10 gap-2">
-                                <div class="w-[30%] h-5 rounded-md bg-indigo-900 border">
-                                    <p class="text-center font-black text-[9pt] text-white">DELGADO</p>
+                            <div class="w-full h-max mt-8 flex justify-center h-10 gap-1">
+                                <div class="w-[25%] h-5 rounded-md bg-indigo-900 border">
+                                    <p class="text-center font-black text-[8pt] text-white">DELGADO</p>
                                 </div>
-                                <div class="w-[30%] h-5 rounded-md bg-indigo-500 border">
-                                    <p class="text-center font-black text-[9pt] text-white">OPTIMO</p>
+                                <div class="w-[25%] h-5 rounded-md bg-indigo-500 border">
+                                    <p class="text-center font-black text-[8pt] text-white">OPTIMO</p>
                                 </div>
-                                <div class="w-[30%] h-5 rounded-md bg-rose-300 border">
-                                    <p class="text-center font-black text-[9pt] text-white">LIG. SOBREPESO</p>
+                                <div class="w-[25%] h-5 rounded-md bg-orange-400 border">
+                                    <p class="text-center font-black text-[8pt] text-white">SOBREPESO</p>
                                 </div>
-                                <div class="w-[30%] h-5 rounded-md bg-orange-400 border">
-                                    <p class="text-center font-black text-[9pt] text-white">SOBREPESO</p>
+                                <div class="w-[25%] h-5 rounded-md bg-red-600 border">
+                                    <p class="text-center font-black text-[8pt] text-white">OBESIDAD</p>
                                 </div>
-                                <div class="w-[30%] h-5 rounded-md bg-red-600 border">
-                                    <p class="text-center font-black text-[9pt] text-white">OBESIDAD</p>
-                                </div>
+    
                             </div>
     
                         </div>

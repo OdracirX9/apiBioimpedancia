@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.tmb = exports.pGrasaIdealJP = exports.cintuCadeSexo = exports.cinturaCadera = exports.texturaCuerpo = exports.pesoIdeal = exports.masaMagra = exports.masaGrasa = exports.porcenGrasaIMC = exports.IMC = exports.porcenGrasaCUNBAE = exports.porcenGrasaUSNAVY = void 0;
+exports.tablaGp = exports.tmb = exports.pGrasaIdealJP = exports.cintuCadeSexo = exports.cinturaCadera = exports.texturaCuerpo = exports.pesoIdeal = exports.masaMagra = exports.masaGrasa = exports.porcenGrasaIMC = exports.IMC = exports.porcenGrasaCUNBAE = exports.porcenGrasaUSNAVY = void 0;
 const porcenGrasaUSNAVY = (sexo, cintura, cuello, talla, cadera) => {
     let pGrasa = 0;
     if (sexo === 'f') {
@@ -74,57 +74,24 @@ const cintuCadeSexo = (sexo, indi) => {
 };
 exports.cintuCadeSexo = cintuCadeSexo;
 const pGrasaIdealJP = (sexo, edad) => {
-    let result = 0;
-    if (edad >= 20 && edad <= 25) {
-        if (sexo === 'f')
-            result = 17.7 + (((18.4 - 17.7) * (edad - 20)) / (25 - 20));
-        if (sexo === 'm')
-            result = 8.5 + (((10.5 - 8.5) * (edad - 20)) / (25 - 20));
-        return result;
+    const ranges = [
+        { min: 20, max: 25, fStart: 17.7, fEnd: 18.4, mStart: 8.5, mEnd: 10.5 },
+        { min: 25, max: 30, fStart: 18.4, fEnd: 19.3, mStart: 10.5, mEnd: 12.7 },
+        { min: 30, max: 35, fStart: 19.3, fEnd: 21.5, mStart: 12.7, mEnd: 13.7 },
+        { min: 35, max: 40, fStart: 21.5, fEnd: 22.2, mStart: 13.7, mEnd: 15.3 },
+        { min: 40, max: 45, fStart: 22.2, fEnd: 22.9, mStart: 15.3, mEnd: 16.4 },
+        { min: 45, max: 50, fStart: 22.9, fEnd: 25.2, mStart: 16.4, mEnd: 18.9 },
+        { min: 50, max: 55, fStart: 25.2, fEnd: 26.3, mStart: 18.9, mEnd: 20.9 }
+    ];
+    for (const range of ranges) {
+        if (edad >= range.min && edad <= range.max) {
+            const start = sexo === 'f' ? range.fStart : range.mStart;
+            const end = sexo === 'f' ? range.fEnd : range.mEnd;
+            return start + ((end - start) * (edad - range.min)) / (range.max - range.min);
+        }
     }
-    if (edad >= 25 && edad <= 30) {
-        if (sexo === 'f')
-            result = 18.4 + (((19.3 - 18.4) * (edad - 25)) / (30 - 25));
-        if (sexo === 'm')
-            result = 10.5 + (((12.7 - 10.5) * (edad - 25)) / (30 - 25));
-        return result;
-    }
-    if (edad >= 30 && edad <= 35) {
-        if (sexo === 'f')
-            result = 19.3 + (((21.5 - 19.3) * (edad - 30)) / (35 - 30));
-        if (sexo === 'm')
-            result = 12.7 + (((13.7 - 12.7) * (edad - 30)) / (35 - 30));
-        return result;
-    }
-    if (edad >= 35 && edad <= 40) {
-        if (sexo === 'f')
-            result = 21.5 + (((22.2 - 21.5) * (edad - 35)) / (40 - 35));
-        if (sexo === 'm')
-            result = 13.7 + (((15.3 - 13.7) * (edad - 35)) / (40 - 35));
-        return result;
-    }
-    if (edad >= 40 && edad <= 45) {
-        if (sexo === 'f')
-            result = 22.2 + (((22.9 - 22.2) * (edad - 40)) / (45 - 40));
-        if (sexo === 'm')
-            result = 15.3 + (((16.4 - 15.3) * (edad - 40)) / (45 - 40));
-        return result;
-    }
-    if (edad >= 45 && edad <= 50) {
-        if (sexo === 'f')
-            result = 22.9 + (((25.2 - 22.9) * (edad - 45)) / (50 - 45));
-        if (sexo === 'm')
-            result = 16.4 + (((18.9 - 16.4) * (edad - 45)) / (50 - 45));
-        return result;
-    }
-    if (edad >= 50 && edad <= 55) {
-        if (sexo === 'f')
-            result = 25.2 + (((26.3 - 25.2) * (edad - 50)) / (55 - 50));
-        if (sexo === 'm')
-            result = 18.9 + (((20.9 - 18.9) * (edad - 50)) / (55 - 50));
-        return result;
-    }
-    return result;
+    // Si la edad no está en el rango definido, puedes devolver un valor predeterminado o lanzar un error
+    return 0;
 };
 exports.pGrasaIdealJP = pGrasaIdealJP;
 const tmb = (sexo, pesoIdeal, talla, edad) => {
@@ -136,3 +103,67 @@ const tmb = (sexo, pesoIdeal, talla, edad) => {
     return result;
 };
 exports.tmb = tmb;
+const tablaGp = (sexo, edad, grasaP) => {
+    let rb1gp = 0;
+    let rb2gp = 0;
+    let rb3gp = 0;
+    let rp1gp = 0;
+    let rp2gp = 0;
+    let rp3gp = 0;
+    let calc100 = 0;
+    let colorGrasa = '';
+    let textIndi = '';
+    const ranges = [
+        { min: 20, max: 39, level: [
+                { gen: 'f', ran: [21, 33, 39] },
+                { gen: 'm', ran: [8, 20, 25] }
+            ]
+        },
+        { min: 40, max: 59, level: [
+                { gen: 'f', ran: [23, 34, 40] },
+                { gen: 'm', ran: [11, 22, 28] }
+            ]
+        },
+        { min: 60, max: 79, level: [
+                { gen: 'f', ran: [24, 36, 42] },
+                { gen: 'm', ran: [13, 25, 30] }
+            ]
+        }
+    ];
+    for (const range of ranges) {
+        if (edad >= range.min && edad <= range.max) {
+            for (const lev of range.level) {
+                if (sexo == lev.gen) {
+                    calc100 = lev.ran[2] / 88;
+                    let porc88 = lev.ran[2] / 88;
+                    rb1gp = lev.ran[0] / porc88;
+                    rb2gp = (lev.ran[1] - lev.ran[0]) / porc88;
+                    rb3gp = (lev.ran[2] - lev.ran[1]) / porc88;
+                    rp1gp = lev.ran[0];
+                    rp2gp = lev.ran[1];
+                    rp3gp = lev.ran[2];
+                }
+            }
+        }
+    }
+    console.log(grasaP);
+    if (grasaP < rp1gp) {
+        textIndi = 'Delgado';
+        colorGrasa = 'indigo-900';
+    }
+    if (grasaP >= rp1gp && grasaP <= rp2gp) {
+        textIndi = 'Optimo';
+        colorGrasa = 'indigo-500';
+    }
+    if (grasaP >= rp2gp && grasaP <= rp3gp) {
+        textIndi = 'Sobrepeso';
+        colorGrasa = 'orange-400';
+    }
+    if (grasaP > rp3gp) {
+        textIndi = 'Obesidad';
+        colorGrasa = 'red-600';
+    }
+    return { rb1gp, rb2gp, rb3gp, rp1gp, rp2gp, rp3gp, calc100, colorGrasa, textIndi };
+};
+exports.tablaGp = tablaGp;
+console.log((0, exports.tablaGp)('m', 21, 25.38));

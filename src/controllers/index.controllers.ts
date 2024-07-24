@@ -23,8 +23,6 @@ export const indexControllers = {
             const [result] = await connectionSQL.pool.query('SELECT * FROM info_paciente ORDER BY created_at DESC')
             res.json(result)
 
-            
-
         } catch (error) {
             res.json(error)
         }

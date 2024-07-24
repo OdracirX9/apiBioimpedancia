@@ -4,19 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreatePdf = CreatePdf;
-const puppeteer_core_1 = __importDefault(require("puppeteer-core"));
-const chrome_aws_lambda_1 = __importDefault(require("@sparticuz/chrome-aws-lambda"));
+const puppeteer_1 = __importDefault(require("puppeteer"));
 const path_1 = __importDefault(require("path"));
 const promises_1 = __importDefault(require("fs/promises"));
 async function CreatePdf(data) {
     try {
-        const browser = await puppeteer_core_1.default.launch({
-            args: chrome_aws_lambda_1.default.args,
-            defaultViewport: chrome_aws_lambda_1.default.defaultViewport,
-            executablePath: await chrome_aws_lambda_1.default.executablePath,
-            headless: chrome_aws_lambda_1.default.headless,
-            ignoreHTTPSErrors: true,
-        });
+        const browser = await puppeteer_1.default.launch({ headless: true });
         const page = await browser.newPage();
         // Resolver __dirname
         const __dirname = path_1.default.resolve();
@@ -91,7 +84,18 @@ async function CreatePdf(data) {
         filledContent = filledContent.replace('{{edadCorporal}}', String(data.edadCorporal));
         filledContent = filledContent.replace('{{edadCorporal}}', String(data.edadCorporal));
         filledContent = filledContent.replace('{{grasaVisceral}}', String(data.grasaVisceral));
-        filledContent = filledContent.replace('{{grasaVisceral_LIMIT}}', String(data.grasaVisceral >= '18' ? '17' : data.grasaVisceral));
+        filledContent = filledContent.replace('{{grasaVisceral_LIMIT}}', String(data.grasaVisceral >= data.rp3gp ? data.rp3gp + 2 : data.grasaVisceral));
+        filledContent = filledContent.replace('{{rb1gp}}', String(data.rb1gp));
+        filledContent = filledContent.replace('{{rb2gp}}', String(data.rb2gp));
+        filledContent = filledContent.replace('{{rb3gp}}', String(data.rb3gp));
+        filledContent = filledContent.replace('{{rp1gp}}', String(data.rp1gp));
+        filledContent = filledContent.replace('{{rp2gp}}', String(data.rp2gp));
+        filledContent = filledContent.replace('{{rp3gp}}', String(data.rp3gp));
+        filledContent = filledContent.replace('{{calc100}}', String(data.calc100));
+        filledContent = filledContent.replace('{{colorGrasa}}', String(data.colorGrasa));
+        filledContent = filledContent.replace('{{colorGrasa}}', String(data.colorGrasa));
+        filledContent = filledContent.replace('{{colorGrasa}}', String(data.colorGrasa));
+        filledContent = filledContent.replace('{{textIndi}}', String(data.textIndi));
         // Establecer el contenido de la página
         await page.setContent(filledContent);
         await page.emulateMediaType("screen");

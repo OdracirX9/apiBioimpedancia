@@ -41,6 +41,7 @@ const ResultsPam = (getPacId) => {
     }
     const imcCal = parseFloat(formu.IMC(getPacId.antropometria.peso, getPacId.antropometria.talla).toFixed(2));
     const cadeCintuCal = parseFloat(formu.cinturaCadera(getPacId.antropometria.cintura, getPacId.antropometria.cadera).toFixed(2));
+    const tablaG = formu.tablaGp(getPacId.sexo, calculateAge(getPacId.fecha_nacimiento, getPacId.antropometria.created_at), getPacId.bioimpedanciometria.grasa_corporal);
     const all = {
         fechaI: `${new Date().getDate()}/${new Date().getMonth() + 1}/${new Date().getFullYear()}`,
         nombre: getPacId.nombre,
@@ -48,7 +49,7 @@ const ResultsPam = (getPacId) => {
         identificacion: getPacId.cedula,
         direccion: getPacId.direccion,
         celular1: getPacId?.celular[0],
-        celular2: getPacId?.celular[1],
+        celular2: getPacId?.celular[1] ? getPacId?.celular[1] : 'No registrado',
         fechaN: `${new Date(getPacId.fecha_nacimiento).getDate()}/${new Date(getPacId.fecha_nacimiento).getMonth() + 1}/${new Date(getPacId.fecha_nacimiento).getFullYear()}`,
         edad: calculateAge(getPacId.fecha_nacimiento, getPacId.antropometria.created_at),
         sexo: getPacId.sexo == "f" ? 'Femenino' : 'Masculino',
@@ -73,7 +74,16 @@ const ResultsPam = (getPacId) => {
         kcalBasal: getPacId.bioimpedanciometria.kca_basal,
         kcalBasalIdealRES: formu.tmb(getPacId.sexo, formu.pesoIdeal(getPacId.antropometria.peso, getPacId.bioimpedanciometria.grasa_corporal, formu.pGrasaIdealJP(getPacId.sexo, calculateAge(getPacId.fecha_nacimiento, getPacId.antropometria.created_at))), getPacId.antropometria.talla, calculateAge(getPacId.fecha_nacimiento, getPacId.antropometria.created_at)).toFixed(0),
         edadCorporal: getPacId.bioimpedanciometria.edad_corporal,
-        grasaVisceral: getPacId.bioimpedanciometria.grasa_visceral
+        grasaVisceral: parseFloat(getPacId.bioimpedanciometria.grasa_visceral),
+        rb1gp: tablaG.rb1gp,
+        rb2gp: tablaG.rb2gp,
+        rb3gp: tablaG.rb3gp,
+        rp1gp: tablaG.rp1gp,
+        rp2gp: tablaG.rp2gp,
+        rp3gp: tablaG.rp3gp,
+        calc100: tablaG.calc100,
+        colorGrasa: tablaG.colorGrasa,
+        textIndi: tablaG.textIndi,
     };
     return all;
 };
