@@ -199,7 +199,7 @@ export async function CreatePdf(data: PdfData): Promise<string | false> {
     const pdfBuffer = await page.pdf({
          format:"letter",
          printBackground:true,
-         path:'prueba.pdf'
+         //path:'prueba.pdf'
     })
  
     await browser.close();
