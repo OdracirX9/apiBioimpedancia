@@ -4,6 +4,8 @@ import morgan from "morgan"
 import cors, { CorsOptions } from "cors";
 import * as mysql2 from 'mysql2/promise';
 
+
+
 //IMPORTANDO RUTAS ESTABLECIDAS
 import IndexRouter from "./routes/index.routes";
 
@@ -21,7 +23,7 @@ export class App{
         }
 
         this.app = express();
-        this.app.set('port', 4100);
+        this.app.set('port', process.env.PORT || 4100);
         this.middlewares();
         this.routes()
         this.pool = connectionSQL.pool
