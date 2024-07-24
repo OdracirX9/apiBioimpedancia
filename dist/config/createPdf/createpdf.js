@@ -7,9 +7,20 @@ exports.CreatePdf = CreatePdf;
 const puppeteer_1 = __importDefault(require("puppeteer"));
 const path_1 = __importDefault(require("path"));
 const promises_1 = __importDefault(require("fs/promises"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 async function CreatePdf(data) {
     try {
-        const browser = await puppeteer_1.default.launch({ headless: true });
+        const browser = await puppeteer_1.default.launch({
+            args: [
+                "--disable-setuid-sandbox",
+                "--no-sandbox",
+                "--single-processs",
+                "--no-zygote"
+            ],
+            executablePath: process.env.NODE_ENV === 'production' ? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer_1.default.executablePath(),
+            headless: true
+        });
         const page = await browser.newPage();
         // Resolver __dirname
         const __dirname = path_1.default.resolve();

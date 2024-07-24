@@ -1,6 +1,9 @@
 import puppeteer from 'puppeteer';
 import path from 'path';
 import fs from 'fs/promises';
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 export interface PdfData {
   fechaI: string | number;
@@ -51,7 +54,16 @@ export interface PdfData {
 export async function CreatePdf(data: PdfData): Promise<string | false> {
   try {
 
-    const browser = await puppeteer.launch({ headless: true})
+    const browser = await puppeteer.launch({
+      args:[
+        "--disable-setuid-sandbox",
+        "--no-sandbox",
+        "--single-processs",
+        "--no-zygote"
+      ],
+      executablePath: process.env.NODE_ENV === 'production'? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer.executablePath(),
+      headless: true
+    })
 
     const page = await browser.newPage();
 
