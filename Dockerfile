@@ -19,7 +19,7 @@ RUN npm ci
 COPY . .
 
 # Crear el directorio dist y cambiar permisos
-RUN mkdir -p /usr/src/app/dist && chown -R node:node /usr/src/app/dist
+#RUN mkdir -p /usr/src/app/dist && chown -R node:node /usr/src/app/dist
 
 # Construye el proyecto
 RUN npm run build
