@@ -29,7 +29,7 @@ export interface PdfData {
   caderaAntro: string | number;
   cinturaCadera: string | number;
   cinturaCaderaIndi: string | number;
-  grasaCorpPORCENT: string | number;
+  grasaCorpPORCENT: number;
   grasaCorpKG: string | number;
   grasaCorpIndi: string | number;
   pesoPerderRES: string | number;
@@ -148,6 +148,7 @@ export async function CreatePdf(data: PdfData): Promise<string | false> {
     filledContent = filledContent.replace('{{edad}}', String(data.edad));
     filledContent = filledContent.replace('{{edad}}', String(data.edad));
     filledContent = filledContent.replace('{{edad}}', String(data.edad));
+    filledContent = filledContent.replace('{{edad}}', String(data.edad));
     filledContent = filledContent.replace('{{sexo}}', String(data.sexo));
     filledContent = filledContent.replace('{{estadoCivil}}', String(data.estadoCivil));
     filledContent = filledContent.replace('{{historiaN}}', String(data.historiaN));
@@ -164,7 +165,7 @@ export async function CreatePdf(data: PdfData): Promise<string | false> {
     filledContent = filledContent.replace('{{cinturaCaderaIndi}}', String(data.cinturaCaderaIndi));
     filledContent = filledContent.replace('{{grasaCorpPORCENT}}', String(data.grasaCorpPORCENT));
     filledContent = filledContent.replace('{{grasaCorpPORCENT}}', String(data.grasaCorpPORCENT));
-    filledContent = filledContent.replace('{{grasaCorpPORCENT_LIMIT}}', String(data.grasaCorpPORCENT >= '26' ? '27' : data.grasaCorpPORCENT));
+    filledContent = filledContent.replace('{{grasaCorpPORCENT_LIMIT}}', String(data.grasaCorpPORCENT >= data.rp3gp ? data.rp3gp + 2 : data.grasaCorpPORCENT));
     filledContent = filledContent.replace('{{grasaCorpKG}}', String(data.grasaCorpKG));
     filledContent = filledContent.replace('{{grasaCorpIndi}}', String(data.grasaCorpIndi));
     filledContent = filledContent.replace('{{pesoPerderRES}}', String(data.pesoPerderRES));
@@ -173,8 +174,9 @@ export async function CreatePdf(data: PdfData): Promise<string | false> {
     filledContent = filledContent.replace('{{kcalBasalIdealRES}}', String(data.kcalBasalIdealRES));
     filledContent = filledContent.replace('{{edadCorporal}}', String(data.edadCorporal));
     filledContent = filledContent.replace('{{edadCorporal}}', String(data.edadCorporal));
+    filledContent = filledContent.replace('{{edadCorporal}}', String(data.edadCorporal));
     filledContent = filledContent.replace('{{grasaVisceral}}', String(data.grasaVisceral));
-    filledContent = filledContent.replace('{{grasaVisceral_LIMIT}}', String( data.grasaVisceral >= data.rp3gp ? data.rp3gp + 2 : data.grasaVisceral));
+    filledContent = filledContent.replace('{{grasaVisceral_LIMIT}}', String( data.grasaVisceral >= 17 ? 17 : data.grasaVisceral));
 
     filledContent = filledContent.replace('{{rb1gp}}', String(data.rb1gp));
     filledContent = filledContent.replace('{{rb2gp}}', String(data.rb2gp));

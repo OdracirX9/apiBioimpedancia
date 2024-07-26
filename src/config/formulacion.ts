@@ -24,7 +24,27 @@ export const ResultsPam = (getPacId: any) => {
      const imcCal: number = parseFloat(formu.IMC(getPacId.antropometria.peso, getPacId.antropometria.talla).toFixed(2))
      const cadeCintuCal: number = parseFloat(formu.cinturaCadera(getPacId.antropometria.cintura, getPacId.antropometria.cadera).toFixed(2))
 
-     const tablaG = formu.tablaGp(getPacId.sexo, calculateAge(getPacId.fecha_nacimiento, getPacId.antropometria.created_at), getPacId.bioimpedanciometria.grasa_corporal)
+     const grasaP = (): number =>{
+        let result:number = 0;
+
+        let grasaUSNAVY:number = parseFloat(formu.porcenGrasaUSNAVY(getPacId.sexo,getPacId.antropometria.cintura,getPacId.antropometria.cuello,getPacId.antropometria.talla,getPacId.antropometria.cadera))
+
+
+
+        if(getPacId.sexo == 'm'){
+            result = parseFloat(((grasaUSNAVY + parseFloat(getPacId.bioimpedanciometria.grasa_corporal)) / 2).toFixed(2));
+     
+            return result
+        } else {
+            result = grasaUSNAVY
+       
+            return result
+        }
+     } 
+ 
+
+
+     const tablaG =  formu.tablaGp(getPacId.sexo, calculateAge(getPacId.fecha_nacimiento, getPacId.antropometria.created_at), grasaP())
 
     const all = {
         fechaI: `${new Date().getDate()}/${new Date().getMonth() + 1}/${new Date().getFullYear()}`,
@@ -52,17 +72,17 @@ export const ResultsPam = (getPacId: any) => {
         caderaAntro: getPacId.antropometria.cadera,
         cinturaCadera: formu.cinturaCadera(getPacId.antropometria.cintura, getPacId.antropometria.cadera).toFixed(2),
         cinturaCaderaIndi: formu.cintuCadeSexo(getPacId.sexo,cadeCintuCal),
-        grasaCorpPORCENT: getPacId.bioimpedanciometria.grasa_corporal,
-        grasaCorpKG: formu.masaGrasa(getPacId.antropometria.peso, getPacId.bioimpedanciometria.grasa_corporal),
-        grasaCorpIndi: getPacId.bioimpedanciometria.grasa_corporal < 8? 'Delgado':getPacId.bioimpedanciometria.grasa_corporal < 16? 'Optimo':getPacId.bioimpedanciometria.grasa_corporal < 21? 'Ligero Sobrepeso':getPacId.bioimpedanciometria.grasa_corporal < 25? 'Sobrepeso':getPacId.bioimpedanciometria.grasa_corporal >= 25? 'Obesidad':'Indefinido',
+        grasaCorpPORCENT: grasaP(),
+        grasaCorpKG: formu.masaGrasa(getPacId.antropometria.peso, grasaP()),
+        grasaCorpIndi: grasaP() < 8? 'Delgado':grasaP() < 16? 'Optimo':grasaP() < 21? 'Ligero Sobrepeso':grasaP() < 25? 'Sobrepeso':grasaP() >= 25? 'Obesidad':'Indefinido',
 
-        pesoPerderRES: (getPacId.antropometria.peso - formu.pesoIdeal(getPacId.antropometria.peso, getPacId.bioimpedanciometria.grasa_corporal, formu.pGrasaIdealJP(getPacId.sexo, calculateAge(getPacId.fecha_nacimiento, getPacId.antropometria.created_at)))).toFixed(2),
+        pesoPerderRES: (getPacId.antropometria.peso - formu.pesoIdeal(getPacId.antropometria.peso, grasaP(), formu.pGrasaIdealJP(getPacId.sexo, calculateAge(getPacId.fecha_nacimiento, getPacId.antropometria.created_at)))).toFixed(2),
 
-        pesoIdealRES: formu.pesoIdeal(getPacId.antropometria.peso, getPacId.bioimpedanciometria.grasa_corporal, formu.pGrasaIdealJP(getPacId.sexo, calculateAge(getPacId.fecha_nacimiento, getPacId.antropometria.created_at))).toFixed(2),
+        pesoIdealRES: formu.pesoIdeal(getPacId.antropometria.peso, grasaP(), formu.pGrasaIdealJP(getPacId.sexo, calculateAge(getPacId.fecha_nacimiento, getPacId.antropometria.created_at))).toFixed(2),
 
 
         kcalBasal: getPacId.bioimpedanciometria.kca_basal,
-        kcalBasalIdealRES: formu.tmb(getPacId.sexo, formu.pesoIdeal(getPacId.antropometria.peso, getPacId.bioimpedanciometria.grasa_corporal, formu.pGrasaIdealJP(getPacId.sexo, calculateAge(getPacId.fecha_nacimiento, getPacId.antropometria.created_at))), getPacId.antropometria.talla, calculateAge(getPacId.fecha_nacimiento, getPacId.antropometria.created_at)).toFixed(0),
+        kcalBasalIdealRES: formu.tmb(getPacId.sexo, formu.pesoIdeal(getPacId.antropometria.peso, grasaP(), formu.pGrasaIdealJP(getPacId.sexo, calculateAge(getPacId.fecha_nacimiento, getPacId.antropometria.created_at))), getPacId.antropometria.talla, calculateAge(getPacId.fecha_nacimiento, getPacId.antropometria.created_at)).toFixed(0),
         edadCorporal: getPacId.bioimpedanciometria.edad_corporal,
 
         grasaVisceral: parseFloat(getPacId.bioimpedanciometria.grasa_visceral),

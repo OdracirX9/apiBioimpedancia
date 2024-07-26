@@ -1,3 +1,5 @@
+
+
 export const porcenGrasaUSNAVY = (sexo: string, cintura: number, cuello: number, talla: number, cadera: number): string => {
     let pGrasa: number = 0;
 
@@ -11,6 +13,9 @@ export const porcenGrasaUSNAVY = (sexo: string, cintura: number, cuello: number,
 
     return pGrasa.toFixed(2);
 }
+
+console.log(porcenGrasaUSNAVY('f',83,32,150,99))
+
 
 export const porcenGrasaCUNBAE = (sexo: string, edad: number, imc: number): number => {
     let numSexo: number = 0;
@@ -71,13 +76,9 @@ export const cintuCadeSexo = (sexo:string, indi:number): string =>{
 
 export const pGrasaIdealJP = (sexo: 'f' | 'm', edad: number): number => {
     const ranges = [
-        { min: 20, max: 25, fStart: 17.7, fEnd: 18.4, mStart: 8.5, mEnd: 10.5 },
-        { min: 25, max: 30, fStart: 18.4, fEnd: 19.3, mStart: 10.5, mEnd: 12.7 },
-        { min: 30, max: 35, fStart: 19.3, fEnd: 21.5, mStart: 12.7, mEnd: 13.7 },
-        { min: 35, max: 40, fStart: 21.5, fEnd: 22.2, mStart: 13.7, mEnd: 15.3 },
-        { min: 40, max: 45, fStart: 22.2, fEnd: 22.9, mStart: 15.3, mEnd: 16.4 },
-        { min: 45, max: 50, fStart: 22.9, fEnd: 25.2, mStart: 16.4, mEnd: 18.9 },
-        { min: 50, max: 55, fStart: 25.2, fEnd: 26.3, mStart: 18.9, mEnd: 20.9 }
+        { min: 20, max: 39, fStart: 21, fEnd: 24, mStart: 11.5, mEnd: 12.5 },
+        { min: 40, max: 59, fStart: 23, fEnd: 27, mStart: 14.0, mEnd: 16 },
+        { min: 60, max: 79, fStart: 24, fEnd: 31, mStart: 18.0, mEnd: 20 }
     ];
 
     for (const range of ranges) {
@@ -179,4 +180,4 @@ export const tablaGp =(sexo: 'm' | 'f', edad:number, grasaP:number):tablaGp=>{
     return {rb1gp,rb2gp,rb3gp,rp1gp,rp2gp,rp3gp,calc100,colorGrasa,textIndi}
 }
 
-console.log(tablaGp('m',21,25.38))
+//console.log(tablaGp('m',21,25.38))
