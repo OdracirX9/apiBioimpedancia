@@ -34,6 +34,8 @@ export interface bioimpedancia {
 	edad_corporal:number | string; 
 	grasa_visceral:number | string;
     created_at?:Date | string;
+    regimen?: number | string;
+    entidad?: number | string;
 }
 
 export interface antro_bio {

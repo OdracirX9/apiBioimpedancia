@@ -18,6 +18,8 @@ export interface PdfData {
   sexo: string | number;
   estadoCivil: string | number;
   historiaN: string | number;
+  regimen: string;
+  entidad: string;
   fechaE: string | number;
   pesoAntro: string | number;
   cuelloAntro: string | number;
@@ -153,6 +155,9 @@ export async function CreatePdf(data: PdfData): Promise<string | false> {
     filledContent = filledContent.replace('{{estadoCivil}}', String(data.estadoCivil));
     filledContent = filledContent.replace('{{historiaN}}', String(data.historiaN));
     filledContent = filledContent.replace('{{fechaE}}', String(data.fechaE));
+    filledContent = filledContent.replace('{{regimen}}', String(data.regimen));
+    filledContent = filledContent.replace('{{entidad}}', String(data.entidad));
+
     filledContent = filledContent.replace('{{pesoAntro}}', String(data.pesoAntro));
     filledContent = filledContent.replace('{{cuelloAntro}}', String(data.cuelloAntro));
     filledContent = filledContent.replace('{{tallaAntro}}', String(data.tallaAntro));

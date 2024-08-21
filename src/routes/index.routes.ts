@@ -19,7 +19,7 @@ router.post('/:id/examenes', indexControllers.createExamenes)
 router.post('/:id/dosis', indexControllers.createDosis)
 router.post('/:id/antecedentes', indexControllers.createAntecedentes)
 
-
+router.put('/:id', indexControllers.updateBio)
 
 
 export default router;

@@ -24,10 +24,14 @@ export const ResultsPam = (getPacId: any) => {
      const imcCal: number = parseFloat(formu.IMC(getPacId.antropometria.peso, getPacId.antropometria.talla).toFixed(2))
      const cadeCintuCal: number = parseFloat(formu.cinturaCadera(getPacId.antropometria.cintura, getPacId.antropometria.cadera).toFixed(2))
 
+     const stringToNumber = (string:string):number=>{
+        return parseFloat(parseFloat(string).toFixed(2))
+     }
+
      const grasaP = (): number =>{
         let result:number = 0;
 
-        let grasaUSNAVY:number = parseFloat(formu.porcenGrasaUSNAVY(getPacId.sexo,getPacId.antropometria.cintura,getPacId.antropometria.cuello,getPacId.antropometria.talla,getPacId.antropometria.cadera))
+        let grasaUSNAVY:number = parseFloat(formu.porcenGrasaUSNAVY(getPacId.sexo,parseInt(getPacId.antropometria.cintura),parseInt(getPacId.antropometria.cuello),parseInt(getPacId.antropometria.talla),parseInt(getPacId.antropometria.cadera)))
 
 
 
@@ -40,7 +44,25 @@ export const ResultsPam = (getPacId: any) => {
        
             return result
         }
-     } 
+     }
+     
+     const entidad = (item:string | number):string=>{
+        if(item == 100) return 'PARTICULAR'
+        else if(item == 101) return 'ECOPETROL'
+        else if(item == 102) return 'COLMÉDICA'
+        else if(item == 103) return 'COLSÁNITAS'
+        else if(item == 104) return 'POSITIVA'
+        else if(item == 105) return 'COOMEVA MP'
+        else if(item == 106) return 'AXA'
+        else if(item == 107) return 'SURA'
+        else if(item == 108) return 'MEDPLUS'
+        else if(item == 109) return 'ALLIANZ'
+        else if(item == 110) return 'SEGUROS BOLÍVAR'
+        else if(item == 111) return 'LIBERTY'
+        else if(item == 112) return 'FIDUPREVISORA'
+        else return 'Sin regimen'
+     }
+
  
 
 
@@ -59,6 +81,8 @@ export const ResultsPam = (getPacId: any) => {
         sexo: getPacId.sexo == "f" ? 'Femenino' : 'Masculino',
 
         estadoCivil: getPacId.estado_civil == 1 ? 'Solter@' : getPacId.estado_civil == 2 ? 'Casad@' : getPacId.estado_civil == 3 ? 'Union libre o unión de hecho' : getPacId.estado_civil == 4 ? 'Separad@' : getPacId.estado_civil == 5 ? 'Divorciad@' : getPacId.estado_civil == 6 ? 'Viud@' : 'No calculado',
+        regimen:  getPacId.bioimpedanciometria.regimen,
+        entidad: entidad(getPacId.bioimpedanciometria.entidad),
         historiaN: "00000",
 
         fechaE: `${new Date(getPacId.antropometria.created_at).getDate()}/${new Date(getPacId.antropometria.created_at).getMonth() + 1}/${new Date(getPacId.antropometria.created_at).getFullYear()}`,
